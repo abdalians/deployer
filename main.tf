@@ -72,11 +72,11 @@ module "eks" {
   }]
 
   vpc_id     = "vpc-1234556abcdef"
-  subnet_ids = ["subnet-abcde012", "subnet-bcde012a", "subnet-fghi345a"]
-
+  #subnet_ids = ["subnet-abcde012", "subnet-bcde012a", "subnet-fghi345a"]
+  subnet_ids = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
-    instance_type                          = "m6i.large"
+    instance_type                          = "t2.micro"
     update_launch_template_default_version = true
     iam_role_additional_policies           = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
   }
@@ -99,11 +99,11 @@ module "eks" {
 
         override = [
           {
-            instance_type     = "m5.large"
+            instance_type     = "t2.micro"
             weighted_capacity = "1"
           },
           {
-            instance_type     = "m6i.large"
+            instance_type     = "t2.micro"
             weighted_capacity = "2"
           },
         ]
@@ -128,8 +128,8 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     ami_type               = "AL2_x86_64"
-    disk_size              = 50
-    instance_types         = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
+    disk_size              = 2
+    instance_types         = ["t2.micro"]
     vpc_security_group_ids = [aws_security_group.additional.id]
   }
 
@@ -140,7 +140,7 @@ module "eks" {
       max_size     = 10
       desired_size = 1
 
-      instance_types = ["t3.large"]
+      instance_types = ["t3.micro"]
       capacity_type  = "SPOT"
       labels = {
         Environment = "test"
