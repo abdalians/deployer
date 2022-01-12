@@ -1,0 +1,26 @@
+---
+
+- name: Deploy to K8s
+  hosts: all
+  become: true
+
+  tasks:
+  - name: Deploy User Service
+    shell: |
+      kubectl apply -f user-service.yml
+      kubectl apply -f user-deployment.yml
+  
+  - name: Deploy Customer Service
+    shell: | 
+      kubectl apply -f customer-service.yml
+      kubectl apply -f customer-deployment.yml
+    
+  - name: Deploy Order Service
+    shell: |
+      kubectl apply -f order-service.yml
+      kubectl apply -f order-deployment.yml
+    
+  - name: Deploy Product Service
+    shell: | 
+      kubectl apply -f product-service.yml
+      kubectl apply -f product-deployment.yml
