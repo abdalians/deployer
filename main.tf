@@ -130,7 +130,7 @@ module "eks" {
     ami_type               = "AL2_x86_64"
     disk_size              = 2
     instance_types         = ["t2.micro"]
-    vpc_security_group_ids = [aws_security_group.additional.id]
+    #vpc_security_group_ids = [aws_security_group.additional.id]
   }
 
   eks_managed_node_groups = {
